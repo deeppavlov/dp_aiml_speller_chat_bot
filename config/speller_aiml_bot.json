@@ -1,20 +1,16 @@
 {
   "chainer": {
     "in": [
-      "raw_utterances_batch",
-      "history_batch",
-      "states_batch"
+      "utterances"
     ],
     "out": [
-      "responses_batch",
-      "confidences_batch",
-      "output_states_batch"
+      "responses_batch"
     ],
     "pipe": [
       {
         "class_name": "str_lower",
         "id": "lower",
-        "in": ["raw_utterances_batch"],
+        "in": ["utterances"],
         "out": ["x_lower"]
       },
       {
@@ -59,9 +55,7 @@
         "null_response": "I don't know",
         "null_confidence": 0.33,
         "in": [
-          "y_predicted",
-          "history_batch",
-          "states_batch"
+          "y_predicted"
         ],
         "out": [
           "responses_batch",

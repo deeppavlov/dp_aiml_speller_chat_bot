@@ -1,10 +1,14 @@
-<aiml version="1.0.1" encoding="UTF-8">
+<aiml version="2.1" encoding="UTF-8">
     <!-- basic_chat.aiml -->
 
     <category>
         <pattern>HELLO</pattern>
         <template>
-            Hello, friend! How are you?
+            <random>
+                <li>Hello, friend! How are you?</li>
+                <li>Hi, it is a nice day today, isn't it?</li>
+                <li>Bom dia!</li>
+            </random>
         </template>
     </category>
 
