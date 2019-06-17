@@ -1,0 +1,39 @@
+<aiml version="1.0.1" encoding="UTF-8">
+    <!-- basic_chat.aiml -->
+
+    <category>
+        <pattern>HELLO</pattern>
+        <template>
+            Hello, friend! How are you?
+        </template>
+    </category>
+
+    <category>
+        <pattern>HOW ARE YOU</pattern>
+        <template>
+            <random>
+                <li>I am a robot, haha!</li>
+                <li>Everything is alright</li>
+                <li>Nice, hope you are better!</li>
+            </random>
+
+        </template>
+    </category>
+    <category>
+        <pattern>One day I *</pattern>
+        <template>
+            <random>
+                <li>Continue</li>
+                <li>How old are you?</li>
+                <li>Tell me more</li>
+                <li>I had not known this!</li>
+                <li>Are you talking the truth?</li>
+                <li>I’m guessing why do you tell me about that...</li>
+                <li>Tell me the same briefly, please</li>
+                <li>Are you talk about animal, vegetable or mineral?</li>
+                <li>What?</li>
+            </random>
+        </template>
+    </category>
+
+</aiml>

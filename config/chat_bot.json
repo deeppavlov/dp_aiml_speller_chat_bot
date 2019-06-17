@@ -1,0 +1,97 @@
+{
+  "chainer": {
+    "in": [
+      "raw_utterances_batch",
+      "history_batch",
+      "states_batch"
+    ],
+    "out": [
+      "responses_batch",
+      "confidences_batch",
+      "output_states_batch"
+    ],
+    "pipe": [
+      {
+        "class_name": "str_lower",
+        "id": "lower",
+        "in": ["raw_utterances_batch"],
+        "out": ["x_lower"]
+      },
+      {
+        "class_name": "nltk_moses_tokenizer",
+        "id": "tokenizer",
+        "in": ["x_lower"],
+        "out": ["x_tokens"]
+      },
+      {
+        "ref": "tokenizer",
+        "in": ["y"],
+        "out": ["y_tokens"]
+      },
+      {
+        "fit_on": ["x_tokens", "y_tokens"],
+        "in": ["x_tokens"],
+        "out": ["tokens_candidates"],
+        "class_name": "spelling_error_model",
+        "window": 1,
+        "candidates_count": 4,
+        "dictionary": {
+          "class_name": "deeppavlov.vocabs.typos:Wiki100KDictionary",
+          "data_dir": "{DOWNLOADS_PATH}/vocabs"
+        },
+        "save_path": "{MODELS_PATH}/error_model/error_model.tsv"
+      },
+      {
+        "class_name": "deeppavlov.models.spelling_correction.electors.kenlm_elector:KenlmElector",
+        "in": ["tokens_candidates"],
+        "out": ["y_predicted_tokens"],
+        "load_path": "{DOWNLOADS_PATH}/language_models/en_wiki_no_punkt.arpa.binary"
+      },
+      {
+        "ref": "tokenizer",
+        "in": ["y_predicted_tokens"],
+        "out": ["y_predicted"]
+      },
+      {
+        "class_name": "aiml_skill",
+        "path_to_aiml_scripts": "{PROJECT_ROOT}/aiml_scripts",
+        "positive_confidence": 0.66,
+        "null_response": "I don't know",
+        "null_confidence": 0.33,
+        "in": [
+          "y_predicted",
+          "history_batch",
+          "states_batch"
+        ],
+        "out": [
+          "responses_batch",
+          "confidences_batch",
+          "output_states_batch"
+        ]
+      }
+    ]
+  },
+  "metadata": {
+    "variables": {
+      "ROOT_PATH": "~/.deeppavlov",
+      "DOWNLOADS_PATH": "{ROOT_PATH}/downloads",
+      "MODELS_PATH": "{ROOT_PATH}/models",
+      "PROJECT_ROOT": "~/Workspace/dp_aiml_speller_chat_bot"
+    },
+    "requirements": [
+      "{DEEPPAVLOV_PATH}/requirements/aiml_skill.txt",
+      "{DEEPPAVLOV_PATH}/requirements/spelling.txt"
+    ],
+    "download": [
+
+      {
+        "url": "http://files.deeppavlov.ai/deeppavlov_data/error_model.tar.gz",
+        "subdir": "{MODELS_PATH}"
+      },
+      {
+        "url": "http://files.deeppavlov.ai/lang_models/en_wiki_no_punkt.arpa.binary.gz",
+        "subdir": "{DOWNLOADS_PATH}/language_models"
+      }
+    ]
+  }
+}
