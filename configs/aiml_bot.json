@@ -27,7 +27,7 @@
       "ROOT_PATH": "~/.deeppavlov",
       "DOWNLOADS_PATH": "{ROOT_PATH}/downloads",
       "MODELS_PATH": "{ROOT_PATH}/models",
-      "PROJECT_ROOT": "~/Workspace/dp_aiml_speller_chat_bot"
+      "PROJECT_ROOT": "."
     },
     "requirements": [
       "{DEEPPAVLOV_PATH}/requirements/aiml_skill.txt"
